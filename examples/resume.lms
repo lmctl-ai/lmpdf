@@ -1,0 +1,21 @@
+# A one-page resume: centred name, contact line, sections with right-aligned dates (tab stops) and bullets.
+output = ARGV.len() > 0 ? ARGV[0] : "resume.pdf";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+let d = docx.create(${output});
+d.title("Avery Morgan, resume").author("Avery Morgan").font("Calibri").font_size(10.5).margins(42.0,48.0,42.0,48.0);
+d.paragraph("AVERY MORGAN").align("center").size(20.0).bold(true).spacing(0.0,2.0,1.0);
+d.paragraph("Operations Director · Chicago, IL · avery.morgan@example.com · (312) 555-0144").align("center").color("#185A80");
+d.heading("Experience", 1);
+d.paragraph("Cedar Peak Analytics, Operations Director\t2021–Present").bold(true).tab_stop(516.0, "right");
+d.bullet("Reduced order exceptions 31 % by introducing a daily exception review.");
+d.bullet("Led a 24-person operations team through two system migrations.");
+d.paragraph("Northwind Workshop, Senior Program Manager\t2016–2021").bold(true).tab_stop(516.0, "right");
+d.bullet("Built a demand-planning process supporting 140 retail locations.");
+d.bullet("Cut supplier lead-time variance in half with weekly scorecards.");
+d.heading("Education", 1);
+d.paragraph("B.S. Supply Chain Management, Lakeshore University\t2016").tab_stop(516.0, "right");
+d.heading("Skills", 1);
+d.paragraph("Lean process design · Vendor management · SQL and dashboards · Change management");
+d.save();
+end _lmcode_
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

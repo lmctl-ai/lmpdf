@@ -1,0 +1,22 @@
+# A trilingual notice: English, Arabic (right to left, joined letters) and Japanese, with a
+# three-column glossary table. Fonts are bundled (Noto Naskh Arabic, Kosugi); nothing comes from the system.
+output = ARGV.len() > 0 ? ARGV[0] : "bilingual-arabic-cjk.pdf";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+let d = docx.create(${output});
+d.title("Visitor notice").author("Harborline Devices").font("Calibri").font_size(12.0);
+d.heading("Visitor notice · إشعار للزوار · 来訪者へのお知らせ", 1);
+d.paragraph("Welcome to the Harborline test laboratory. Please wear your badge at all times and sign the visitor log at reception.");
+d.paragraph("مرحبا بكم في مختبر الاختبار. يرجى ارتداء بطاقة الزائر في جميع الأوقات والتوقيع في سجل الزوار عند الاستقبال.").align("right");
+d.paragraph("ハーバーライン試験所へようこそ。館内では常に来訪者バッジを着用し、受付で来訪者名簿に署名してください。");
+d.heading("Glossary · مسرد · 用語集", 2);
+let t = d.table(5, 3);
+t.cell(1,1,"English").cell(1,2,"العربية").cell(1,3,"日本語");
+t.cell(2,1,"Laboratory").cell(2,2,"مختبر").cell(2,3,"試験所");
+t.cell(3,1,"Visitor badge").cell(3,2,"بطاقة الزائر").cell(3,3,"来訪者バッジ");
+t.cell(4,1,"Reception").cell(4,2,"الاستقبال").cell(4,3,"受付");
+t.cell(5,1,"Emergency exit").cell(5,2,"مخرج الطوارئ").cell(5,3,"非常口");
+t.shade(1,1,"#185A80").shade(1,2,"#185A80").shade(1,3,"#185A80");
+d.paragraph("Mixed line: the badge (بطاقة) and the log (名簿) stay at reception.");
+d.footer_fields("Visitor notice | {PAGE}/{NUMPAGES}").save();
+end _lmcode_
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

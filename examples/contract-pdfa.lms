@@ -1,0 +1,21 @@
+# A services contract with numbered clauses and two signature blocks. lmpdf writes PDF/A-2b and
+# PDF/UA-1 by default; the gallery caption shows the veraPDF result for this file.
+output = ARGV.len() > 0 ? ARGV[0] : "contract-pdfa.pdf";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+let d = docx.create(${output});
+d.title("Services Agreement").author("Harborline Devices").font("Times New Roman").font_size(11.0).margins(54.0,54.0,54.0,54.0);
+d.heading("SERVICES AGREEMENT", 1).align("center");
+d.paragraph("This agreement is made on June 30, 2026 between Harborline Devices (the Provider) and Cedar Peak Analytics (the Client).");
+d.clause("Services. The Provider installs, calibrates and maintains the monitoring sensors listed in Schedule A.", 1);
+d.clause("Service levels. Critical faults are answered within four hours and resolved within two business days.", 2);
+d.clause("Scheduled maintenance is announced at least five business days in advance.", 3);
+d.clause("Fees. The Client pays the monthly fee in Schedule B within 30 days of each invoice.", 1);
+d.clause("Late payments carry interest of 1 % per month.", 2);
+d.clause("Term. The agreement runs for 24 months and renews for 12 months unless either party gives 60 days' notice.", 1);
+d.clause("Confidentiality. Each party protects the other's confidential information with reasonable care.", 1);
+d.paragraph("Signed by the authorised representatives of the parties:");
+d.signature("For Harborline Devices: Rafael Ortiz, Director");
+d.signature("For Cedar Peak Analytics: Mara Chen, COO");
+d.header_fields("Services Agreement | {PAGE} of {NUMPAGES}").save();
+end _lmcode_
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

@@ -1,0 +1,18 @@
+# A letter on a letterhead (running header) with numbered footnotes at the page bottom and a link.
+output = ARGV.len() > 0 ? ARGV[0] : "letterhead-footnotes.pdf";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+let d = docx.create(${output});
+d.title("Data retention update").author("Harborline Devices").font("Calibri").font_size(11.0);
+d.header("HARBORLINE DEVICES · 88 Meridian Avenue · Bellwether, OR 97005 · harborline.example");
+d.paragraph("June 30, 2026");
+d.paragraph("Cedar Peak Analytics\n88 Meridian Avenue\nBellwether, OR 97005");
+d.paragraph("Dear Ms. Chen,");
+d.paragraph("From August 1 we keep raw sensor readings for 24 months instead of 36 months.").footnote("Aggregated hourly values are kept for the full contract term.");
+d.paragraph("The change follows the review of our storage policy and the regional retention rules.").footnote("Regional Data Practices Act 2025, section 12(3).");
+d.paragraph("Exports requested before July 31 are prepared under the current schedule. The detailed policy is published at ").hyperlink("harborline.example/retention", "https://harborline.example/retention");
+d.paragraph("If you need a longer period for audit purposes, reply before July 15 and we will keep your project data on a separate archive tier at no cost.").footnote("The archive tier is read-only and restored within two working days.");
+d.paragraph("Sincerely,");
+d.paragraph("Rafael Ortiz\nHead of Data Operations");
+d.footer_fields("Harborline Devices | {PAGE}/{NUMPAGES}").save();
+end _lmcode_
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

@@ -1,0 +1,29 @@
+# A 40-page technical report: a generated table of contents with real page numbers, numbered
+# headings, a running header and a "Page X of Y" footer. The body is generated as Markdown.
+output = ARGV.len() > 0 ? ARGV[0] : "report-40-pages.pdf";
+let chapters = ["Context", "Method", "Field measurements", "Load model", "Reliability", "Cost", "Risks", "Operations", "Roll-out", "Recommendations"];
+let body = """---
+title: Grid Storage Feasibility Study
+author: Northwind Engineering
+toc: true
+numbering: true
+header: Grid Storage Feasibility Study
+footer: Page {{page}} of {{pages}}
+---
+""";
+for (c in range(0, 10)) {
+  body = body + "# " + chapters[c] + "\n\n";
+  for (s in range(1, 5)) {
+    body = body + sprintf("## %s, part %d\n\n", chapters[c], s);
+    for (k in range(1, 11)) {
+      body = body + sprintf("Paragraph %d of %s, part %d. The storage site was observed over twelve months, and each observation records the charge level, the ambient temperature, the cell imbalance and the inverter efficiency. The values in this section are summarised from those records; the full data set is listed in the appendix tables, which give the hourly means and the daily extremes for every string of cells.\n\n", k, chapters[c], s);
+    }
+  }
+  body = body + "| Indicator | Target | Measured |\n| :--- | ---: | ---: |\n" + sprintf("| Round-trip efficiency | 88 %% | %d %% |\n| Availability | 99.0 %% | 99.%d %% |\n\n", 86 + (c % 4), c);
+}
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+let d = docx.create(${output});
+d.font("Calibri").font_size(11.0);
+d.markdown(${body}).save();
+end _lmcode_
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

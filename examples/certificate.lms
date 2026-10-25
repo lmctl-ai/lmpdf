@@ -1,0 +1,16 @@
+# A landscape certificate: large centred type, a recipient line, two signature blocks.
+output = ARGV.len() > 0 ? ARGV[0] : "certificate.pdf";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+let d = docx.create(${output});
+d.title("Certificate of completion").author("Northstar Academy").font("Georgia").font_size(14.0).orientation("landscape").margins(72.0,90.0,72.0,90.0);
+d.paragraph("NORTHSTAR ACADEMY").align("center").size(14.0).color("#185A80").bold(true).spacing(24.0,18.0,1.0);
+d.paragraph("Certificate of Completion").align("center").size(34.0).bold(true).spacing(0.0,24.0,1.0);
+d.paragraph("This certificate is proudly presented to").align("center").italic(true);
+d.paragraph("Imani Reed").align("center").size(28.0).color("#17324D").spacing(12.0,12.0,1.0);
+d.paragraph("for completing the 40-hour course Applied Data Visualisation with distinction.").align("center");
+d.paragraph("Awarded on June 30, 2026 in Bellwether, Oregon.").align("center").spacing(0.0,30.0,1.0);
+d.signature("Lina Patel, Programme Director").align("center");
+d.signature("Theo Brooks, Lead Instructor").align("center");
+d.save();
+end _lmcode_
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

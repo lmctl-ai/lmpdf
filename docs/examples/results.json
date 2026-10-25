@@ -1,0 +1,162 @@
+[
+ {
+  "name": "bilingual-arabic-cjk",
+  "summary": "A trilingual notice: English, Arabic (right to left, joined letters) and Japanese, with a three-column glossary table. Fonts are bundled (Noto Naskh Arabic, Kosugi); nothing comes from the system.",
+  "pages": 1,
+  "bytes": 57578,
+  "deterministic": true,
+  "qpdf": "ok",
+  "verapdf_2b": {
+   "compliant": true,
+   "passed_rules": 144,
+   "failed_rules": 0,
+   "passed_checks": 6068
+  },
+  "verapdf_ua1": {
+   "compliant": true,
+   "passed_rules": 106,
+   "failed_rules": 0,
+   "passed_checks": 2875
+  }
+ },
+ {
+  "name": "certificate",
+  "summary": "A landscape certificate: large centred type, a recipient line, two signature blocks.",
+  "pages": 1,
+  "bytes": 36494,
+  "deterministic": true,
+  "qpdf": "ok",
+  "verapdf_2b": {
+   "compliant": true,
+   "passed_rules": 144,
+   "failed_rules": 0,
+   "passed_checks": 1798
+  },
+  "verapdf_ua1": {
+   "compliant": true,
+   "passed_rules": 106,
+   "failed_rules": 0,
+   "passed_checks": 854
+  }
+ },
+ {
+  "name": "contract-pdfa",
+  "summary": "A services contract with numbered clauses and two signature blocks. lmpdf writes PDF/A-2b and PDF/UA-1 by default; the gallery caption shows the veraPDF result for this file.",
+  "pages": 1,
+  "bytes": 33257,
+  "deterministic": true,
+  "qpdf": "ok",
+  "verapdf_2b": {
+   "compliant": true,
+   "passed_rules": 144,
+   "failed_rules": 0,
+   "passed_checks": 2923
+  },
+  "verapdf_ua1": {
+   "compliant": true,
+   "passed_rules": 106,
+   "failed_rules": 0,
+   "passed_checks": 2082
+  }
+ },
+ {
+  "name": "invoice-multipage",
+  "summary": "Invoice whose line-item table runs over several pages: the header row repeats on every page and the footer counts pages (Page X of Y). The rows are generated in the outer script as Markdown.",
+  "pages": 3,
+  "bytes": 127858,
+  "deterministic": true,
+  "qpdf": "ok",
+  "verapdf_2b": {
+   "compliant": true,
+   "passed_rules": 144,
+   "failed_rules": 0,
+   "passed_checks": 38670
+  },
+  "verapdf_ua1": {
+   "compliant": true,
+   "passed_rules": 106,
+   "failed_rules": 0,
+   "passed_checks": 24584
+  }
+ },
+ {
+  "name": "letterhead-footnotes",
+  "summary": "A letter on a letterhead (running header) with numbered footnotes at the page bottom and a link.",
+  "pages": 1,
+  "bytes": 27306,
+  "deterministic": true,
+  "qpdf": "ok",
+  "verapdf_2b": {
+   "compliant": true,
+   "passed_rules": 144,
+   "failed_rules": 0,
+   "passed_checks": 3928
+  },
+  "verapdf_ua1": {
+   "compliant": true,
+   "passed_rules": 106,
+   "failed_rules": 0,
+   "passed_checks": 2308
+  }
+ },
+ {
+  "name": "newsletter-two-column",
+  "summary": "A two-column newsletter: a section with two columns, headings, bullets and an image in the flow.",
+  "pages": 1,
+  "bytes": 51269,
+  "deterministic": true,
+  "qpdf": "ok",
+  "verapdf_2b": {
+   "compliant": true,
+   "passed_rules": 144,
+   "failed_rules": 0,
+   "passed_checks": 6545
+  },
+  "verapdf_ua1": {
+   "compliant": true,
+   "passed_rules": 106,
+   "failed_rules": 0,
+   "passed_checks": 4154
+  }
+ },
+ {
+  "name": "report-40-pages",
+  "summary": "A 40-page technical report: a generated table of contents with real page numbers, numbered headings, a running header and a \"Page X of Y\" footer. The body is generated as Markdown.",
+  "pages": 41,
+  "bytes": 287612,
+  "deterministic": true,
+  "qpdf": "ok",
+  "verapdf_2b": {
+   "compliant": true,
+   "passed_rules": 144,
+   "failed_rules": 0,
+   "passed_checks": 420152
+  },
+  "verapdf_ua1": {
+   "compliant": true,
+   "passed_rules": 106,
+   "failed_rules": 0,
+   "passed_checks": 244053
+  }
+ },
+ {
+  "name": "resume",
+  "summary": "A one-page resume: centred name, contact line, sections with right-aligned dates (tab stops) and bullets.",
+  "pages": 1,
+  "bytes": 33391,
+  "deterministic": true,
+  "qpdf": "ok",
+  "verapdf_2b": {
+   "compliant": true,
+   "passed_rules": 144,
+   "failed_rules": 0,
+   "passed_checks": 3091
+  },
+  "verapdf_ua1": {
+   "compliant": true,
+   "passed_rules": 106,
+   "failed_rules": 0,
+   "passed_checks": 1760
+  }
+ }
+]

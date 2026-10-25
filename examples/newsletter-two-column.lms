@@ -1,0 +1,31 @@
+# A two-column newsletter: a section with two columns, headings, bullets and an image in the flow.
+output = ARGV.len() > 0 ? ARGV[0] : "newsletter-two-column.pdf";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+docx.sample_image("newsletter-badge.png");
+let d = docx.create(${output});
+d.title("Field Notes, Issue 14").author("Blue Finch Studio").font("Calibri").font_size(10.5).margins(48.0,48.0,48.0,48.0).columns(2, 18.0);
+d.heading("Field Notes · Issue 14", 1);
+d.paragraph("Blue Finch Studio · July 2026").italic(true).color("#185A80");
+d.heading("Planning in the open", 2);
+d.paragraph("Northstar Academy moved its weekly planning into one shared view. Teachers now see every activity, owner and date in one place, and the leads review the plan together every Monday.");
+d.paragraph("The first month showed fewer duplicate dates and faster decisions on room changes.");
+d.image("newsletter-badge.png", 96, 64);
+d.heading("What changed", 2);
+d.bullet("One plan instead of four spreadsheets");
+d.bullet("Owners named for every activity");
+d.bullet("A short decision record after each review");
+d.heading("From the classroom", 2);
+d.paragraph("Teachers asked for three things: fewer meetings, earlier notice of room changes, and one place to see who owns each activity. The shared plan delivers the last two directly; the first follows from shorter weekly reviews.");
+d.paragraph("Two grade-level leads now prepare the Monday review on Friday afternoon. They check every open item, mark the decisions that need the whole team, and close the rest by message.");
+d.heading("By the numbers", 2);
+let t = d.table(4, 2);
+t.cell(1,1,"Measure").cell(1,2,"After one term").cell(2,1,"Planning meetings").cell(2,2,"1 per week").cell(3,1,"Duplicate dates").cell(3,2,"down 70 %").cell(4,1,"Open decisions").cell(4,2,"visible to all");
+t.shade(1,1,"#185A80").shade(1,2,"#185A80");
+d.heading("Family events", 2);
+d.paragraph("In the second term the same rhythm covers the family evenings: one owner, one date, and a short note after each event. Volunteers sign up through the same shared view.");
+d.heading("Next issue", 2);
+d.paragraph("We follow the second term: how the same rhythm works for family events, and what the teachers want to keep. Write to fieldnotes@bluefinch.example with your questions.");
+d.paragraph("The studio thanks the Northstar team for sharing their notes and figures. All names and numbers in this issue are fictional.");
+d.footer_fields("Field Notes 14 | {PAGE}").save();
+end _lmcode_
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

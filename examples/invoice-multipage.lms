@@ -1,0 +1,38 @@
+# Invoice whose line-item table runs over several pages: the header row repeats on every page and
+# the footer counts pages (Page X of Y). The rows are generated in the outer script as Markdown.
+output = ARGV.len() > 0 ? ARGV[0] : "invoice-multipage.pdf";
+let items = ["Field calibration visit", "Sensor replacement kit", "Firmware support hours", "Data export license", "Remote monitoring month", "Spare battery pack"];
+let rows = "";
+let total = 0.0;
+for (i in range(1, 91)) {
+  let qty = (i % 7) + 1;
+  let unit = 40.0 + (i % 9) * 12.5;
+  let amount = qty * unit;
+  total = total + amount;
+  rows = rows + sprintf("| %d | %s, site %02d | %d | %.2f | %.2f |\n", i, items[i % 6], (i % 23) + 1, qty, unit, amount);
+}
+let body = """---
+title: Invoice INV-2048
+author: Harborline Devices
+footer: Invoice INV-2048 | Page {{page}} of {{pages}}
+---
+# Invoice INV-2048
+
+**Bill to:** Cedar Peak Analytics, 88 Meridian Avenue, Bellwether, OR 97005
+**Issued:** June 30, 2026 · **Due:** 30 days from the invoice date
+
+{widths=40,250,40,80,90}
+| # | Item | Qty | Unit price | Amount |
+| ---: | :--- | ---: | ---: | ---: |
+""" + rows + """
+| Summary | Amount |
+| :--- | ---: |
+""" + sprintf("| Subtotal | %.2f |\n| Tax (8.5 %%) | %.2f |\n| **Total due** | **%.2f** |\n", total, total * 0.085, total * 1.085) + """
+Payment by bank transfer to account 4410-2208. Questions: billing@harborline.example.
+""";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+let d = docx.create(${output});
+d.font("Calibri").font_size(10.5).margins(48.0,48.0,48.0,48.0);
+d.markdown(${body}).save();
+end _lmcode_
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);
