@@ -13,8 +13,9 @@ verification. Interactive forms, encryption and digital signing are outside v1.
 
 LMScript resolves the platform release asset through
 `install="github:lmctl-ai/lmpdf@latest"`. Releases contain
-`lmpdf-linux-x64`, `lmpdf-linux-arm64`, `lmpdf-macos-arm64`,
-`lmpdf-macos-x64`, `lmpdf-windows-x64.exe`, and `SHA256SUMS`.
+`lmpdf-linux-x64`, `lmpdf-linux-arm64`, and `SHA256SUMS`. Earlier releases may
+contain macOS and Windows assets; those platforms are not produced by the current
+release lane.
 
 For a direct Linux x64 download:
 
@@ -197,7 +198,8 @@ Rebuild them with `python3 examples/render.py --lmpdf private implementation det
 
 ## Build and verification
 
-The host pins Typst and its dependency lock. CI builds five platforms, checks
+The host pins Typst and its dependency lock. The current release CI builds Linux
+x64 and arm64, checks
 static/self-contained linkage, audits dependency and font licences, validates
 archival/accessibility profiles, compares output hashes on independent runners,
 and measures binary size and 200-page tagged/untagged table memory. Generated
