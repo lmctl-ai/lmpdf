@@ -28,4 +28,4 @@ d.paragraph("We follow the second term: how the same rhythm works for family eve
 d.paragraph("The studio thanks the Northstar team for sharing their notes and figures. All names and numbers in this issue are fictional.");
 d.footer_fields("Field Notes 14 | {PAGE}").save();
 end _lmcode_
-savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--lmcode", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

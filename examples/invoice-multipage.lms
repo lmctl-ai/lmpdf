@@ -35,4 +35,4 @@ let d = docx.create(${output});
 d.font("Calibri").font_size(10.5).margins(48.0,48.0,48.0,48.0);
 d.markdown(${body}).save();
 end _lmcode_
-savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--lmcode", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

@@ -18,4 +18,4 @@ d.heading("Skills", 1);
 d.paragraph("Lean process design · Vendor management · SQL and dashboards · Change management");
 d.save();
 end _lmcode_
-savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);
+savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--lmcode", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);

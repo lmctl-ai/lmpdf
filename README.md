@@ -37,11 +37,11 @@ doc.paragraph("The same document calls can target lmoffice docx.");
 doc.footer_fields("Page {PAGE} of {NUMPAGES}").save();
 end _dsl_
 savedsl(p, output + ".dslb");
-r = system(concat(dsl_cli(p), ["--dsl", output + ".dslb"]), 120000);
+r = system(concat(dsl_cli(p), ["--lmcode", output + ".dslb"]), 120000);
 assert(r.code == 0);
 ```
 
-The schemas are the API source of truth: `lmpdf docx --dsl-signatures` and `lmpdf pptx --dsl-signatures`.
+The schemas are the API source of truth: `lmpdf docx --lmcode-signatures` and `lmpdf pptx --lmcode-signatures`.
 The output path is supplied to `docx.create` or `pptx.create`; `save()` takes no arguments.
 
 ## Same script, two outputs
