@@ -98,17 +98,23 @@ for full_repo in "${!tags_by_repo[@]}"; do
     fi
   done
 
-  # CLI lookup uses one PATH entry per executable name. Use the newest public
-  # release binary for that name after verifying every pinned release exists.
-  tag="$latest_tag"
-  if [[ -z "$tag" && ${#available_tags[@]} -gt 0 ]]; then tag="${available_tags[-1]}"; fi
+  # One executable name has one PATH entry. Install the resolved declared pin;
+  # a newer latest must not silently replace the binary exercised by recipes.
+  tag=""
+  for candidate in "${available_tags[@]}"; do
+    if [[ -n "$tag" && "$tag" != "$candidate" ]]; then
+      echo "install-hosts: conflicting pins for $full_repo: $tag and $candidate" >&2
+      exit 1
+    fi
+    tag="$candidate"
+  done
   if [[ -z "$tag" ]]; then
     echo "install-hosts: no released binary is available for $full_repo"
     continue
   fi
 
   tmp="$(mktemp -d "${RUNNER_TEMP:-/tmp}/lmctl-host-download.XXXXXX")"
-  if ! gh release download "$tag" -R "$full_repo" --pattern "$repo-linux-x64" --dir "$tmp"; then
+  if ! gh release download "$tag" -R "$full_repo" --pattern "$repo-linux-x64" --pattern SHA256SUMS --dir "$tmp"; then
     rm -rf "$tmp"
     echo "install-hosts: release exists but $repo-linux-x64 could not be downloaded from $full_repo@$tag" >&2
     exit 1
@@ -119,6 +125,8 @@ for full_repo in "${!tags_by_repo[@]}"; do
     echo "install-hosts: release exists but has no non-empty $repo-linux-x64 asset: $full_repo@$tag" >&2
     exit 1
   fi
+  # Verify before making the executable available on PATH.
+  (cd "$tmp" && sha256sum --check --ignore-missing SHA256SUMS)
   cp "$asset" "$host_bin/$repo"
   chmod +x "$host_bin/$repo"
   rm -rf "$tmp"

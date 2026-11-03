@@ -70,6 +70,13 @@ jobs:
           print(f"checked {len(links)} local README links/images and {checked} raw autorun URLs")
           PY
 
+      - name: Installer integrity controls and explicit schema discovery
+        shell: bash
+        run: |
+          python3 tests/install-hosts.test.py
+          test ! -s "$LMCTL_UNAVAILABLE_EXAMPLES_FILE"
+          lmscript -e 's = load_schema(cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.2");'
+
       - name: Check every public example with lmscript
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -90,5 +97,9 @@ jobs:
                   continue
                 fi
                 lmscript --check "$example"
+                mkdir -p "$RUNNER_TEMP/lmpdf-example-output"
+                output="$RUNNER_TEMP/lmpdf-example-output/$(basename "$example" .lms).pdf"
+                lmscript "$example" "$output"
+                test -s "$output"
               done
           fi
