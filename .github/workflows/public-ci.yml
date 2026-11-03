@@ -17,8 +17,10 @@ jobs:
         with:
           node-version: 24
 
-      - name: Install the compiler that accepts _lmcode_
-        run: npm install --global @lmctl-ai/lmctl@0.2.420
+      - name: Install current lmscript compiler in a private prefix
+        run: |
+          npm install --prefix "$RUNNER_TEMP/compiler" --no-save --package-lock=false @lmctl-ai/lmctl@latest
+          echo "$RUNNER_TEMP/compiler/node_modules/.bin" >> "$GITHUB_PATH"
 
       - name: Install released hosts referenced by public examples
         env:

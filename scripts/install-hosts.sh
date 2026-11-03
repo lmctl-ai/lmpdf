@@ -15,6 +15,7 @@ skip_file="${RUNNER_TEMP:-/tmp}/lmctl-unavailable-examples.tsv"
 declare -A tags_by_repo=()
 declare -A owner_by_repo=()
 declare -A cli_names=()
+declare -A cli_commands=()
 declare -A cli_repo=()
 declare -A unavailable_reason=()
 declare -A resolved_latest=()
@@ -44,9 +45,12 @@ for example in "${examples[@]}"; do
       owner_by_repo["$full_repo"]="$repo"
     fi
     if [[ "$line" =~ $cli_re ]]; then
-      cli="${BASH_REMATCH[1]}"
-      cli="${cli%%[[:space:]]*}"
-      [[ -z "$cli" ]] || cli_names["$cli"]=1
+      cli_full="${BASH_REMATCH[1]}"
+      cli="${cli_full%%[[:space:]]*}"
+      if [[ -n "$cli" ]]; then
+        cli_names["$cli"]=1
+        cli_commands["$cli"]="$cli_full"
+      fi
     fi
   done < "$example"
 done
@@ -119,6 +123,22 @@ for full_repo in "${!tags_by_repo[@]}"; do
   chmod +x "$host_bin/$repo"
   rm -rf "$tmp"
   echo "install-hosts: installed $repo from $full_repo@$tag for declared pins: ${tags_by_repo[$full_repo]}"
+
+  # A release can exist while still exposing only the retired host flags.
+  # Probe the current discovery command before allowing its examples into CI.
+  cli_full="${cli_commands[$repo]-$repo}"
+  read -r -a cli_words <<< "$cli_full"
+  probe=("$host_bin/$repo")
+  if [[ ${#cli_words[@]} -gt 1 ]]; then probe+=("${cli_words[@]:1}"); fi
+  if ! "${probe[@]}" --lmcode-schema --json >/dev/null 2>&1; then
+    reason="$full_repo@$tag does not expose current --lmcode-schema --json; examples wait for host adoption"
+    echo "install-hosts: SKIP $full_repo@$tag: $reason"
+    for requested_tag in ${tags_by_repo[$full_repo]}; do
+      resolved_tag="$requested_tag"
+      [[ "$requested_tag" == latest ]] && resolved_tag="$latest_tag"
+      unavailable_reason["$full_repo@$resolved_tag"]="$reason"
+    done
+  fi
 done
 
 for cli in "${!cli_names[@]}"; do
