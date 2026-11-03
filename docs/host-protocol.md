@@ -56,6 +56,7 @@ Source main pushes derive `v0.2.RUN_NUMBER`. The publisher waits for the audit,
 five native build/protocol/example jobs, independent deterministic PDF replay,
 and PDF/A-2b plus PDF/UA-1 validation. It publishes platform binaries and
 `SHA256SUMS` to this public repository. Existing releases are immutable: reruns
-compare checksum manifests rather than replacing assets. No manual tag or release
+verify source identity, the complete published checksum set and binary version
+rather than replacing assets or requiring rebuilt bytes to be identical. No manual tag or release
 is needed. These are configured gates; they remain unqualified until Actions is
 re-enabled and the workflow actually succeeds.
