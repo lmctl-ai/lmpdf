@@ -9,6 +9,15 @@ See the foundation decision and
 release engineering for supported profiles and
 verification. Interactive forms, encryption and digital signing are outside v1.
 
+## Host protocol release status
+
+Current lmcode adoption is implemented in the private Rust source. The public
+**v0.1.62 host still uses the retired protocol**; migrated `run_lmcode` examples
+await a qualified successor release. Source Actions is disabled by an organization
+budget control, so no new usable version is claimed. See the
+[protocol and release qualification](docs/host-protocol.md) for the exact surface,
+dry behavior, error contract and release blocker.
+
 ## Install
 
 LMScript resolves the platform release asset through
