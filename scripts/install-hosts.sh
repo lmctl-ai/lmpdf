@@ -64,14 +64,8 @@ for full_repo in "${!tags_by_repo[@]}"; do
     exit 1
   fi
 
-  if ! release_tags="$(gh release list -R "$full_repo" -L 1000 --json tagName --jq '.[].tagName')"; then
-    echo "install-hosts: release lookup failed for $full_repo" >&2
-    exit 1
-  fi
-  # `gh release list` includes prereleases and is used only to validate exact
-  # pins. Resolve `@latest` through GitHub's dedicated endpoint, which excludes
-  # prereleases and drafts by contract. A staging prerelease must never replace
-  # the host selected for an @latest public example.
+  # Resolve the symbolic latest tag separately. Exact pins use direct tag
+  # lookup, so old releases never disappear behind a history-page ceiling.
   latest_tag=""
   if latest_tag="$(gh api "repos/$full_repo/releases/latest" --jq '.tag_name' 2>/dev/null)" && [[ -n "$latest_tag" ]]; then
     resolved_latest["$full_repo"]="$latest_tag"
@@ -84,10 +78,8 @@ for full_repo in "${!tags_by_repo[@]}"; do
     resolved_tag="$requested_tag"
     [[ "$requested_tag" == latest ]] && resolved_tag="$latest_tag"
     found=false
-    if [[ -n "$resolved_tag" ]]; then
-      while IFS= read -r listed_tag; do
-        [[ "$listed_tag" == "$resolved_tag" ]] && found=true
-      done <<< "$release_tags"
+    if [[ -n "$resolved_tag" ]] && gh release view "$resolved_tag" -R "$full_repo" --json tagName --jq .tagName >/dev/null 2>&1; then
+      found=true
     fi
     if [[ "$found" != true ]]; then
       reason="$full_repo@$requested_tag has no published release; dependent examples are not checkable"
