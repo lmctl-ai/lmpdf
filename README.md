@@ -9,23 +9,21 @@ See the foundation decision and
 release engineering for supported profiles and
 verification. Interactive forms, encryption and digital signing are outside v1.
 
-## Host protocol release status
+## Host protocol release
 
-Current lmcode adoption is implemented in the private Rust source. The public
-**v0.1.62 host still uses the retired protocol**; migrated `run_lmcode` examples
-await a qualified successor release. All five native source CI jobs and PDF qualification gates now pass. Public
-publication is blocked by release-credential authorization, so no successor
-version is claimed yet. See the
-[protocol and release qualification](docs/host-protocol.md) for the exact surface,
-dry behavior, error contract and release blocker.
+[Release v0.2.2](https://github.com/lmctl-ai/lmpdf/releases/tag/v0.2.2) supports
+current lmcode invocation, dry execution and terminal results. Its repository CI
+passed all five native platforms, independent replay, PDF/A-2b and PDF/UA-1
+validation before publication. The examples pin this exact public release:
+`install="github:lmctl-ai/lmpdf@v0.2.2"`. See the
+[protocol and release qualification](docs/host-protocol.md).
 
 ## Install
 
 LMScript resolves the platform release asset through
-`install="github:lmctl-ai/lmpdf@latest"`. Releases contain
-`lmpdf-linux-x64`, `lmpdf-linux-arm64`, and `SHA256SUMS`. Earlier releases may
-contain macOS and Windows assets; those platforms are not produced by the current
-release lane.
+`install="github:lmctl-ai/lmpdf@v0.2.2"`. Releases contain
+`lmpdf-linux-x64`, `lmpdf-linux-arm64`, `lmpdf-macos-x64`,
+`lmpdf-macos-arm64`, `lmpdf-windows-x64.exe`, and `SHA256SUMS`.
 
 For a direct Linux x64 download:
 
@@ -40,7 +38,7 @@ chmod +x lmpdf-linux-x64
 
 ```text
 output = ARGV.len() > 0 ? ARGV[0] : "hello.pdf";
-p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.2";
 let doc = docx.create(${output});
 doc.heading("Hello PDF", 1);
 doc.paragraph("The same document calls can target lmoffice docx.");

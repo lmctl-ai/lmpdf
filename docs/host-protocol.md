@@ -2,13 +2,18 @@
 
 ## Release status
 
-The Rust implementation has adopted the current protocol in the private source
-repository. **The public v0.1.62 binary has not adopted it.** The source Actions budget block has been resolved with operator authorization.
-The complete native matrix, independent replay and PDF conformance now pass,
-but publishing the successor is blocked by release-credential authorization. Do not pin v0.1.62 for the migrated examples. A new version and
-immutable install pin will be recorded after the repository's own release CI passes.
-The example gallery records earlier rendering checks, not protocol qualification
-of a future binary.
+[v0.2.2](https://github.com/lmctl-ai/lmpdf/releases/tag/v0.2.2) is the qualified
+current-protocol release. Pin `install="github:lmctl-ai/lmpdf@v0.2.2"` in recipes.
+Source commit b141177e55b549eaf0d5a01b9ae04936c150c51b is private; installable
+assets and SHA256SUMS are published in this public repository. All five public
+binaries match the qualified native CI artifacts byte for byte. The binaries
+report version0.2.2; they do not expose a separate embedded VCS field, so source
+identity is verified through release provenance and matching CI artifact hashes.
+
+The earlier budget and publisher-authorization blockers were resolved by the
+operator-authorized Lead. The source repository's own CI completed publication;
+recipes require no credential or manual release operation. The historicalv0.1.62
+binary retains the retired protocol and is not suitable for these recipes.
 
 ## Execution and discovery
 
@@ -58,7 +63,5 @@ and PDF/A-2b plus PDF/UA-1 validation. It publishes platform binaries and
 `SHA256SUMS` to this public repository. Existing releases are immutable: reruns
 verify source identity, the complete published checksum set and binary version
 rather than replacing assets or requiring rebuilt bytes to be identical. No manual tag or release
-is needed. All qualification dependencies passed on source run41695793895. The publisher
-then failed with HTTP403 from the public releases API. No successor release
-is available until its credential authorization is corrected and publication
-succeeds.
+is needed. Source run41695793895 is fully green, including the authorized publisher retry.
+It publishedv0.2.2 after the complete qualification dependency gate.

@@ -1,6 +1,6 @@
 # A one-page resume: centred name, contact line, sections with right-aligned dates (tab stops) and bullets.
 output = ARGV.len() > 0 ? ARGV[0] : "resume.pdf";
-p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.2";
 let d = docx.create(${output});
 d.title("Avery Morgan, resume").author("Avery Morgan").font("Calibri").font_size(10.5).margins(42.0,48.0,42.0,48.0);
 d.paragraph("AVERY MORGAN").align("center").size(20.0).bold(true).spacing(0.0,2.0,1.0);
