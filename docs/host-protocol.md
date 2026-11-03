@@ -3,9 +3,9 @@
 ## Release status
 
 The Rust implementation has adopted the current protocol in the private source
-repository. **The public v0.1.62 binary has not adopted it.** A qualified successor
-is blocked because Actions is disabled on the source repository by an organization
-budget decision. Do not pin v0.1.62 for the migrated examples. A new version and
+repository. **The public v0.1.62 binary has not adopted it.** The source Actions budget block has been resolved with operator authorization.
+The complete native matrix, independent replay and PDF conformance now pass,
+but publishing the successor is blocked by release-credential authorization. Do not pin v0.1.62 for the migrated examples. A new version and
 immutable install pin will be recorded after the repository's own release CI passes.
 The example gallery records earlier rendering checks, not protocol qualification
 of a future binary.
@@ -58,5 +58,7 @@ and PDF/A-2b plus PDF/UA-1 validation. It publishes platform binaries and
 `SHA256SUMS` to this public repository. Existing releases are immutable: reruns
 verify source identity, the complete published checksum set and binary version
 rather than replacing assets or requiring rebuilt bytes to be identical. No manual tag or release
-is needed. These are configured gates; they remain unqualified until Actions is
-re-enabled and the workflow actually succeeds.
+is needed. All qualification dependencies passed on source run41695793895. The publisher
+then failed with HTTP403 from the public releases API. No successor release
+is available until its credential authorization is corrected and publication
+succeeds.
