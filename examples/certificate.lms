@@ -13,4 +13,6 @@ d.signature("Lina Patel, Programme Director").align("center");
 d.signature("Theo Brooks, Lead Instructor").align("center");
 d.save();
 end _lmcode_
-savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--lmcode", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);
+let result = run_lmcode(p);
+assert(result.ok, "lmpdf generation failed: " + json_stringify(result));
+println(json_stringify(result.result));

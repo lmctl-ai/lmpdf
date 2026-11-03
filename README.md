@@ -30,15 +30,15 @@ chmod +x lmpdf-linux-x64
 
 ```text
 output = ARGV.len() > 0 ? ARGV[0] : "hello.pdf";
-p = _dsl_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@latest";
 let doc = docx.create(${output});
 doc.heading("Hello PDF", 1);
 doc.paragraph("The same document calls can target lmoffice docx.");
 doc.footer_fields("Page {PAGE} of {NUMPAGES}").save();
-end _dsl_
-savedsl(p, output + ".dslb");
-r = system(concat(dsl_cli(p), ["--lmcode", output + ".dslb"]), 120000);
-assert(r.code == 0);
+end _lmcode_
+r = run_lmcode(p);
+assert(r.ok, json_stringify(r));
+println(json_stringify(r.result));
 ```
 
 The schemas are the API source of truth: `lmpdf docx --lmcode-signatures` and `lmpdf pptx --lmcode-signatures`.

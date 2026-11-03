@@ -18,4 +18,6 @@ d.signature("For Harborline Devices: Rafael Ortiz, Director");
 d.signature("For Cedar Peak Analytics: Mara Chen, COO");
 d.header_fields("Services Agreement | {PAGE} of {NUMPAGES}").save();
 end _lmcode_
-savedsl(p, output + ".dslb"); r = system(concat(dsl_cli(p), ["--lmcode", output + ".dslb"]), 300000); assert(r.code == 0, r.stdout + r.stderr);
+let result = run_lmcode(p);
+assert(result.ok, "lmpdf generation failed: " + json_stringify(result));
+println(json_stringify(result.result));
