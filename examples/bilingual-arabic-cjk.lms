@@ -1,7 +1,7 @@
 # A trilingual notice: English, Arabic (right to left, joined letters) and Japanese, with a
 # three-column glossary table. Fonts are bundled (Noto Naskh Arabic, Kosugi); nothing comes from the system.
 output = ARGV.len() > 0 ? ARGV[0] : "bilingual-arabic-cjk.pdf";
-p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.2";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.14";
 let d = docx.create(${output});
 d.title("Visitor notice").author("Harborline Devices").font("Calibri").font_size(12.0);
 d.heading("Visitor notice · إشعار للزوار · 来訪者へのお知らせ", 1);
