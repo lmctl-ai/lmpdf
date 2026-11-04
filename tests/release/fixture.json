@@ -1,0 +1,12 @@
+{
+  "title": "lmpdf release conformance fixture",
+  "pages": 3,
+  "text": ["English", "العربية", "日本語"],
+  "table_rows": 24,
+  "repeat_header": true,
+  "footnote": true,
+  "links": true,
+  "outline": true,
+  "page_counter": true,
+  "pdfa": "2b"
+}

@@ -1,0 +1,7 @@
+{
+  "title": "lmpdf 200-page release memory fixture",
+  "pages": 200,
+  "table_rows": 35,
+  "repeat_header": true,
+  "pdfa": "2b"
+}

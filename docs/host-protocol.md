@@ -57,11 +57,23 @@ still fail honestly.
 
 ## Release qualification
 
-Source main pushes derive `v0.2.RUN_NUMBER`. The publisher waits for the audit,
-five native build/protocol/example jobs, independent deterministic PDF replay,
-and PDF/A-2b plus PDF/UA-1 validation. It publishes platform binaries and
-`SHA256SUMS` to this public repository. Existing releases are immutable: reruns
-verify source identity, the complete published checksum set and binary version
-rather than replacing assets or requiring rebuilt bytes to be identical. No manual tag or release
-is needed. Source run41695793895 is fully green, including the authorized publisher retry.
-It publishedv0.2.2 after the complete qualification dependency gate.
+New releases are started by a manual `workflow_dispatch` on main in the private
+source repository. The committed `v0.2` floor and workflow run number determine
+the automatic candidate version. Private CI seals the five host executables,
+native layout readers, release notices, a provenance manifest and SHA256SUMS,
+then creates/reuses a public draft and requests qualification through
+`repository_dispatch`.
+
+This public workflow resolves the exact draft and SHA256SUMS identity, installs
+the candidate through the normal lmscript resolver on each supported OS, and
+runs the full protocol/runtime suite, 33-vector html-doc corpus, native safety
+controls, deterministic replay, same-input compatibility check, PDF/A-2b and
+PDF/UA-1 validation, and tagged/untagged 200-page resource budgets. The deliberate
+failure-path control is used only for a throwaway version; its cleanup removes
+only that draft release object. Promotion is a separate gated public CI job that
+rechecks the sealed candidate before marking it Latest. Existing published
+releases are immutable; matching replays are idempotent and checksum conflicts
+are rejected. No tag, release, or promotion is performed manually.
+
+The last previously published release is `v0.2.2`; the exact new version and
+checksum evidence will be recorded here after end-to-end qualification.

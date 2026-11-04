@@ -1,0 +1,114 @@
+name: Qualify one lmpdf release platform
+description: Install and exercise the exact sealed lmpdf draft candidate
+inputs:
+  artifact:
+    description: Candidate artifact uploaded by the public candidate job
+    required: true
+  host_asset:
+    description: Platform host executable in the candidate
+    required: true
+  layout_asset:
+    description: Platform PDF-layout reader in the candidate
+    required: true
+  name:
+    description: Platform label for the step summary
+    required: true
+  python:
+    description: Python executable name for this runner
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 24
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.artifact }}
+        path: draft-assets
+    - name: Install lmscript in a runner-local prefix
+      shell: bash
+      env:
+        PYTHON: ${{ inputs.python }}
+      run: |
+        set -euo pipefail
+        npm install --prefix "$RUNNER_TEMP/compiler" --no-save --package-lock=false @lmctl-ai/lmctl@0.2.458
+        compiler="$RUNNER_TEMP/compiler/node_modules/.bin/lmscript"
+        if [ "$RUNNER_OS" = Windows ]; then compiler="$compiler.cmd"; fi
+        echo "LMSCRIPT_BIN=$compiler" >> "$GITHUB_ENV"
+        echo "LMCODE_COMPILER_MODULE=$RUNNER_TEMP/compiler/node_modules/@lmctl-ai/lmctl/dist/dsl.js" >> "$GITHUB_ENV"
+        echo "LMPDF_TEST_PYTHON=$PYTHON" >> "$GITHUB_ENV"
+        echo "$RUNNER_TEMP/compiler/node_modules/.bin" >> "$GITHUB_PATH"
+    - name: Install the exact draft host through lmscript
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        DRAFT_TAG: ${{ github.event.client_payload.tag }}
+        DRAFT_ASSET: ${{ inputs.host_asset }}
+        PYTHON: ${{ inputs.python }}
+      run: |
+        set -euo pipefail
+        "$PYTHON" scripts/install-draft-host.py \
+          --compiler "$LMSCRIPT_BIN" \
+          --tag "$DRAFT_TAG" \
+          --asset "$DRAFT_ASSET" \
+          --candidate draft-assets
+        if [[ "$RUNNER_OS" == Windows ]]; then repo_root="$(pwd -W)"; else repo_root="$PWD"; fi
+        layout="$repo_root/draft-assets/${{ inputs.layout_asset }}"
+        if [[ "$RUNNER_OS" != Windows ]]; then chmod +x "$layout"; fi
+        echo "LMPDF_LAYOUT_READER=$layout" >> "$GITHUB_ENV"
+    - name: Run lmcode host invocation protocol checks
+      shell: bash
+      run: '"$LMPDF_TEST_PYTHON" tests/host-protocol.py --binary "$LMPDF_BIN"'
+    - name: Run invocation protocol, runtime and real-effect suite
+      shell: bash
+      run: '"$LMPDF_TEST_PYTHON" tests/protocol-runtime.py --binary "$LMPDF_BIN" --skip-example certificate.lms'
+    - name: Run legacy shared-XML compatibility and dry checks
+      shell: bash
+      env:
+        DRAFT_TAG: ${{ github.event.client_payload.tag }}
+      run: |
+        "$LMPDF_TEST_PYTHON" tests/shared-xml-runtime.py \
+          --compiler "$LMSCRIPT_BIN" \
+          --binary "$LMPDF_BIN" \
+          --example tests/fixtures/certificate-shared-xml.lms \
+          --kind pdf \
+          --install "github:lmctl-ai/lmpdf@$DRAFT_TAG"
+    - name: Run all html-doc corpus vectors and native PDF layout assertions
+      shell: bash
+      env:
+        EVIDENCE_DIR: ${{ runner.temp }}/lmpdf-html-doc-evidence
+        DRAFT_TAG: ${{ github.event.client_payload.tag }}
+        PYTHON: ${{ inputs.python }}
+      run: |
+        "$PYTHON" tests/html-doc-runtime.py \
+          --compiler "$LMSCRIPT_BIN" \
+          --binary "$LMPDF_BIN" \
+          --layout-reader "$LMPDF_LAYOUT_READER" \
+          --install "github:lmctl-ai/lmpdf@$DRAFT_TAG" \
+          --evidence "$EVIDENCE_DIR"
+    - name: Run native hostile-input and dry-safety suite
+      shell: bash
+      run: '"$LMPDF_TEST_PYTHON" tests/html-doc-safety.py --binary "$LMPDF_BIN"'
+    - name: Replay release fixture and compare two PDF hashes
+      shell: bash
+      env:
+        EVIDENCE_DIR: ${{ runner.temp }}/lmpdf-replay
+      run: |
+        "$LMPDF_TEST_PYTHON" scripts/conformance.py \
+          --binary "$LMPDF_BIN" \
+          --out-dir "$EVIDENCE_DIR" \
+          --render-only
+    - name: Summarize platform qualification
+      if: always()
+      shell: bash
+      env:
+        DRAFT_TAG: ${{ github.event.client_payload.tag }}
+        PLATFORM_NAME: ${{ inputs.name }}
+      run: |
+        echo "## $PLATFORM_NAME candidate qualification" >> "$GITHUB_STEP_SUMMARY"
+        echo "Tag: $DRAFT_TAG" >> "$GITHUB_STEP_SUMMARY"
+        echo "Result: ${{ job.status }}" >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "notes_directory": "budget-notes",
+  "platforms": {
+    "linux-x64": {
+      "baseline_stripped_bytes": 48082432,
+      "max_stripped_bytes": 134217728,
+      "max_rss_bytes": {
+        "table-200-untagged": 805306368,
+        "table-200-tagged": 1342177280
+      }
+    },
+    "linux-arm64": {
+      "baseline_stripped_bytes": 43391824,
+      "max_stripped_bytes": 134217728,
+      "max_rss_bytes": {
+        "table-200-untagged": 805306368,
+        "table-200-tagged": 1342177280
+      }
+    },
+    "macos-x64": {
+      "baseline_stripped_bytes": 45460912,
+      "max_stripped_bytes": 134217728
+    },
+    "macos-arm64": {
+      "baseline_stripped_bytes": 45528944,
+      "max_stripped_bytes": 134217728
+    },
+    "windows-x64": {
+      "baseline_stripped_bytes": 46019072,
+      "max_stripped_bytes": 134217728
+    }
+  },
+  "baseline_evidence": {
+    "run_id": 40201383059,
+    "commit": "7f69de3528efef6eb96ff1af1d701c31e1b2cd5e",
+    "file": "release/native-baseline.json",
+    "scope": "All five native jobs passed; the old page-count fixture failure is independent of these binary-size measurements."
+  }
+}

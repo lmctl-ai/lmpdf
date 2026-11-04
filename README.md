@@ -18,6 +18,12 @@ validation before publication. The examples pin this exact public release:
 `install="github:lmctl-ai/lmpdf@v0.2.2"`. See the
 [protocol and release qualification](docs/host-protocol.md).
 
+New releases are initiated by a manual dispatch in the private source repository.
+That workflow seals the native candidates as a public draft; this public
+repository runs the host/runtime, html-doc corpus, safety and document
+qualification gates against those exact bytes, then promotes only after they all
+pass. Pins move only when that automatic promotion publishes a release.
+
 ## Install
 
 LMScript resolves the platform release asset through

@@ -1,0 +1,102 @@
+{
+  "run_id": 40201383059,
+  "head_sha": "7f69de3528efef6eb96ff1af1d701c31e1b2cd5e",
+  "run_conclusion": "failure (conformance only)",
+  "native_jobs": "all five success",
+  "platforms": {
+    "linux-arm64": {
+      "binary_bytes": 43391824,
+      "stripped_size_bytes": 43391824,
+      "build_elapsed_seconds": 148.64627662600003,
+      "build_elapsed_minutes": 2.477437943766667,
+      "stripped_supported": true,
+      "artifact_file_bytes": 43391824,
+      "linkage": {
+        "format": "ELF",
+        "dependencies": [],
+        "non_os_dependencies": [],
+        "interpreter": null,
+        "static_linkage": true,
+        "crt_dependencies": [],
+        "static_crt_requested": true,
+        "ok": true
+      }
+    },
+    "linux-x64": {
+      "binary_bytes": 48082432,
+      "stripped_size_bytes": 48082432,
+      "build_elapsed_seconds": 108.60207076900002,
+      "build_elapsed_minutes": 1.810034512816667,
+      "stripped_supported": true,
+      "artifact_file_bytes": 48082432,
+      "linkage": {
+        "format": "ELF",
+        "dependencies": [],
+        "non_os_dependencies": [],
+        "interpreter": null,
+        "static_linkage": true,
+        "crt_dependencies": [],
+        "static_crt_requested": true,
+        "ok": true
+      }
+    },
+    "macos-arm64": {
+      "binary_bytes": 45528912,
+      "stripped_size_bytes": 45528944,
+      "build_elapsed_seconds": 216.59396675000005,
+      "build_elapsed_minutes": 3.609899445833334,
+      "stripped_supported": true,
+      "artifact_file_bytes": 45528912,
+      "linkage": {
+        "format": "Mach-O",
+        "dependencies": [
+          "/usr/lib/libiconv.2.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ],
+        "non_os_dependencies": [],
+        "static_crt_requested": true,
+        "ok": true
+      }
+    },
+    "macos-x64": {
+      "binary_bytes": 45460872,
+      "stripped_size_bytes": 45460912,
+      "build_elapsed_seconds": 370.904830179,
+      "build_elapsed_minutes": 6.1817471696499995,
+      "stripped_supported": true,
+      "artifact_file_bytes": 45460872,
+      "linkage": {
+        "format": "Mach-O",
+        "dependencies": [
+          "/usr/lib/libiconv.2.dylib",
+          "/usr/lib/libSystem.B.dylib"
+        ],
+        "non_os_dependencies": [],
+        "static_crt_requested": true,
+        "ok": true
+      }
+    },
+    "windows-x64": {
+      "binary_bytes": 46019072,
+      "stripped_size_bytes": 46019072,
+      "build_elapsed_seconds": 268.828,
+      "build_elapsed_minutes": 4.480466666666667,
+      "stripped_supported": false,
+      "artifact_file_bytes": 46019072,
+      "linkage": {
+        "format": "PE",
+        "dependencies": [
+          "kernel32.dll",
+          "api-ms-win-core-synch-l1-2-0.dll",
+          "ntdll.dll",
+          "bcryptprimitives.dll",
+          "kernel32.dll"
+        ],
+        "non_os_dependencies": [],
+        "crt_dependencies": [],
+        "static_crt_requested": true,
+        "ok": true
+      }
+    }
+  }
+}

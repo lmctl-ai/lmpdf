@@ -1,0 +1,39 @@
+# The same XML source is parsed and rendered by either host.
+output = ARGV.len() > 0 ? ARGV[0] : "education-certificate.pdf";
+content = _xml_ profile="html-subset@1";
+<div xmlns="http://www.w3.org/1999/xhtml">
+  <p class="issuer">NORTHSTAR ACADEMY</p>
+  <h1 class="title">Certificate of Completion</h1>
+  <p>This certificate is proudly presented to <strong>Jordan Rivera</strong>.</p>
+  <p>For completing the Northstar Academy Community Data Studio, a 24-hour workshop in ethical measurement and clear communication.</p>
+  <ul><li>Twenty-four guided hours</li><li>Ethical measurement and clear communication</li></ul>
+  <table><tr><th>Program</th><th>Record</th></tr>
+    <tr><td>Program</td><td>Community Data Studio</td></tr>
+    <tr><td>Completed</td><td>June 18, 2027</td></tr>
+    <tr><td>Hours</td><td>24 guided hours</td></tr>
+    <tr><td>Project</td><td>Neighborhood cooling map</td></tr>
+    <tr><td>Director</td><td>Morgan Lee</td></tr>
+    <tr><td>Certificate</td><td>NS-2027-041</td></tr>
+  </table>
+  <p class="signature">Program director: Morgan Lee</p>
+  <p class="signature">Academy registrar</p>
+  <p class="footer">Northstar Academy · Fictional instructional record</p>
+</div>
+end _xml_
+styles = _xml_ profile="css-subset@1";
+<style xmlns="urn:lmctl:css:1">
+  <rule select=".issuer"><set name="font-family" value="Arial"/><set name="font-size" value="11pt"/><set name="color" value="#185A80"/><set name="text-align" value="center"/><set name="margin-bottom" value="4pt"/></rule>
+  <rule select=".title"><set name="font-family" value="Arial"/><set name="font-size" value="26pt"/><set name="font-weight" value="bold"/><set name="color" value="#17324D"/><set name="text-align" value="center"/><set name="margin-bottom" value="18pt"/></rule>
+  <rule select="p"><set name="font-family" value="Arial"/><set name="font-size" value="12pt"/><set name="margin-bottom" value="8pt"/></rule>
+</style>
+end _xml_
+let xml = content.toString();
+let css = styles.toString();
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.2";
+let d = docx.create(${output});
+d.title("Certificate of Completion").author("Northstar Academy").font("Arial");
+d.html_xml(${xml}, ${css});
+d.save();
+end _lmcode_
+r = run_lmcode(p);
+assert(r.ok, json_stringify(r));
