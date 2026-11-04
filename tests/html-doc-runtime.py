@@ -69,7 +69,7 @@ def main():
         with tempfile.TemporaryDirectory(prefix="html-doc-", dir=evidence) as temp:
             script = Path(temp) / "case.lms"
             script.write_text(source, encoding="utf-8")
-            real = subprocess.run([str(compiler), str(script)], cwd=ROOT, env=env, text=True, capture_output=True)
+            real = subprocess.run([str(compiler), str(script)], cwd=ROOT, env=env, text=True, encoding="utf-8", capture_output=True)
         negative = case["kind"] == "dry-negative"
         if negative:
             require(not output.exists(), f"{case['id']} negative real unexpectedly wrote output")
@@ -77,7 +77,7 @@ def main():
         else:
             require(real.returncode == 0, f"{case['id']} real: {real.stdout}{real.stderr}")
             require(output.is_file() and output.stat().st_size > 0, f"{case['id']} real output missing")
-            inspect = subprocess.run([str(binary), "inspect", str(output)], cwd=ROOT, env=env, text=True, capture_output=True)
+            inspect = subprocess.run([str(binary), "inspect", str(output)], cwd=ROOT, env=env, text=True, encoding="utf-8", capture_output=True)
             require(inspect.returncode == 0, f"{case['id']} inspect: {inspect.stdout}{inspect.stderr}")
             details = json.loads(inspect.stdout).get("result", {})
             expected = case.get("expected", {})
@@ -89,7 +89,7 @@ def main():
                     f"{case['id']} table mapping mismatch: {details.get('tables')}")
             if case["id"] == "page-break":
                 require(details.get("pages") == 2, f"explicit page-break boundary was lost: {details}")
-            observed=subprocess.run([str(Path(args.layout_reader).resolve()),str(output)],text=True,capture_output=True)
+            observed=subprocess.run([str(Path(args.layout_reader).resolve()),str(output)],text=True,encoding="utf-8",capture_output=True)
             require(observed.returncode==0,f"{case['id']} final PDF layout reader: {observed.stderr}")
             layout=json.loads(observed.stdout)
             normalize=lambda text:re.sub(r"\s+"," ",text).strip()
@@ -118,7 +118,7 @@ def main():
         with tempfile.TemporaryDirectory(prefix="html-doc-dry-", dir=evidence) as temp:
             script_path = Path(temp) / "case.lms"
             script_path.write_text(source, encoding="utf-8")
-            dry = subprocess.run([str(compiler), "--dry-run", "--plan-format", "json", str(script_path)], cwd=ROOT, env=env, text=True, capture_output=True)
+            dry = subprocess.run([str(compiler), "--dry-run", "--plan-format", "json", str(script_path)], cwd=ROOT, env=env, text=True, encoding="utf-8", capture_output=True)
         require(not output.exists(), f"{case['id']} dry created the output")
         require(dry.returncode == 0, f"{case['id']} dry: {dry.stdout}{dry.stderr}")
         plan = json.loads(dry.stdout)
