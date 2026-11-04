@@ -193,12 +193,16 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/compiler-v5" --no-save --package-lock=false @lmctl-ai/lmctl@0.2.420
           echo "LMSCRIPT_BIN=$RUNNER_TEMP/compiler/node_modules/.bin/lmscript" >> "$GITHUB_ENV"
           echo "LMCODE_COMPILER_MODULE=$RUNNER_TEMP/compiler/node_modules/@lmctl-ai/lmctl/dist/dsl.js" >> "$GITHUB_ENV"
-      - name: Install the candidate and compare five same-input operations
+      - name: Install the exact draft candidate
         env:
           GH_TOKEN: ${{ github.token }}
           DRAFT_TAG: ${{ needs.candidate.outputs.tag }}
         run: |
           python3 scripts/install-draft-host.py --compiler "$LMSCRIPT_BIN" --tag "$DRAFT_TAG" --asset lmpdf-linux-x64 --candidate draft-assets
+      - name: Compare five same-input operations with the legacy public host
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
           mkdir -p "$RUNNER_TEMP/before"
           gh release download v0.1.62 -R lmctl-ai/lmpdf --pattern lmpdf-linux-x64 --pattern SHA256SUMS --dir "$RUNNER_TEMP/before"
           (cd "$RUNNER_TEMP/before" && sha256sum --check --ignore-missing SHA256SUMS)
