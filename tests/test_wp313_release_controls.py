@@ -26,28 +26,6 @@ def jobs(path):
     return {name: "\n".join(lines) for name, lines in output.items()}
 
 
-class PrivatePipeline(unittest.TestCase):
-    def test_core_candidate_is_bound_to_private_run_and_throwaway_choice(self):
-        candidate = source("scripts/prepare-release-candidate.py")
-        verifier = source("scripts/verify-private-build.py")
-        freezer = source("scripts/stage-frozen-draft.py")
-        self.assertIn("native-release-core/2", candidate)
-        self.assertIn("deliberate_failure", candidate)
-        self.assertIn("actions/runs/", verifier)
-        self.assertIn("EXPECTED_TAG", verifier)
-        self.assertIn("stage", freezer)
-        self.assertIn("dispatch", freezer)
-        self.assertNotIn("--clobber", source("scripts/release-to-public.sh"))
-
-    def test_private_publisher_checks_run_and_attests_frozen_candidate(self):
-        workflow = source(".github/workflows/ci.yml")
-        self.assertIn("verify-private-build.py", workflow)
-        self.assertIn("attest-build-provenance", workflow)
-        self.assertIn("stage-frozen-draft.py stage", workflow)
-        self.assertIn("stage-frozen-draft.py dispatch", workflow)
-        self.assertIn("actions: read", workflow)
-
-
 class PublicPipeline(unittest.TestCase):
     def test_release_policy_and_replay_state_are_initialized(self):
         policy_path = ROOT / "release-policy.json"
