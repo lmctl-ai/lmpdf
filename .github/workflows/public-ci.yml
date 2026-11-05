@@ -10,16 +10,18 @@ jobs:
   public-content:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Set up Node for lmscript
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
 
       - name: Install current lmscript compiler in a private prefix
         run: |
-          npm install --prefix "$RUNNER_TEMP/compiler" --no-save --package-lock=false @lmctl-ai/lmctl@latest
+          npm install --prefix "$RUNNER_TEMP/compiler" --no-save --package-lock=false @lmctl-ai/lmctl@0.2.458
           echo "$RUNNER_TEMP/compiler/node_modules/.bin" >> "$GITHUB_PATH"
 
       - name: Install released hosts referenced by public examples
@@ -78,8 +80,6 @@ jobs:
           lmscript -e 's = load_schema(cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.2");'
 
       - name: Check every public example with lmscript
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail

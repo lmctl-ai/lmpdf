@@ -1,0 +1,47 @@
+{
+  "product": "lmpdf",
+  "public_repository": "lmctl-ai/lmpdf",
+  "private_repository": "lmctlhq/lmpdf",
+  "workflow": ".github/workflows/ci.yml",
+  "branch": "main",
+  "payloads": [
+    "lmpdf-linux-x64",
+    "lmpdf-linux-arm64",
+    "lmpdf-macos-arm64",
+    "lmpdf-macos-x64",
+    "lmpdf-windows-x64.exe",
+    "lmpdf-layout-linux-x64",
+    "lmpdf-layout-linux-arm64",
+    "lmpdf-layout-macos-arm64",
+    "lmpdf-layout-macos-x64",
+    "lmpdf-layout-windows-x64.exe",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md"
+  ],
+  "private_jobs": [
+    "version",
+    "audit",
+    "macos-arm64",
+    "linux-arm64",
+    "windows-x64",
+    "linux-x64",
+    "macos-x64",
+    "candidate",
+    "private-smoke"
+  ],
+  "qualification_jobs": [
+    "candidate",
+    "Qualify macos-arm64",
+    "Qualify macos-x64",
+    "Qualify linux-x64",
+    "Qualify linux-arm64",
+    "Qualify windows-x64",
+    "Replay macos-arm64",
+    "Replay macos-x64",
+    "Replay linux-x64",
+    "Replay linux-arm64",
+    "Replay windows-x64",
+    "Compatibility with legacy public host",
+    "Conformance and archival RSS"
+  ]
+}

@@ -47,8 +47,20 @@ class PublicPipeline(unittest.TestCase):
         self.assertEqual(writers, {"promote"})
         for name, body in worker.items():
             self.assertNotIn("contents: write", body, name)
-            self.assertNotIn("GH_TOKEN:", body, name)
-            self.assertIn("persist-credentials: false", body, name)
+            if "actions/checkout@" in body:
+                self.assertIn("persist-credentials: false", body, name)
+            if name == "candidate":
+                self.assertIn("GH_TOKEN:", body)
+                self.assertIn("verify-parent-handoff.py", body)
+                self.assertNotIn("install-draft-host.py", body)
+                self.assertNotIn("check-local-candidate.py", body)
+            elif name == "compatibility":
+                before_host = body.split("- name: Install the exact draft candidate without credentials", 1)[0]
+                candidate_execution = body.split("- name: Install the exact draft candidate without credentials", 1)[1]
+                self.assertIn("GH_TOKEN:", before_host)
+                self.assertNotIn("GH_TOKEN:", candidate_execution)
+            else:
+                self.assertNotIn("GH_TOKEN:", body, name)
         worker_workflow = source(".github/workflows/qualify-platforms.yml")
         self.assertIn("repository_dispatch:", worker_workflow)
         self.assertIn("merge-multiple: true", worker_workflow)
@@ -58,8 +70,9 @@ class PublicPipeline(unittest.TestCase):
         block = jobs(".github/workflows/qualify-private-draft.yml").get("promote", "")
         self.assertIn("!cancelled()", block)
         self.assertIn("queue: max", block)
-        self.assertIn("verify-parent-handoff.py", source("scripts/qualification_broker.py"))
-        self.assertIn("FROZEN-CANDIDATE.json", source("scripts/manage-qualified-draft.py"))
+        self.assertIn("verify-parent-handoff.py", source(".github/workflows/qualify-platforms.yml"))
+        self.assertIn("SEAL", source("scripts/manage-qualified-draft.py"))
+        self.assertIn("recheck(api,root,seal,request,False)", source("scripts/manage-qualified-draft.py"))
         for file in [".github/workflows/qualify-private-draft.yml", ".github/workflows/qualify-platforms.yml", ".github/actions/qualify-platform/action.yml"]:
             for line in source(file).splitlines():
                 if "uses:" not in line or "uses: ./" in line:

@@ -78,7 +78,10 @@ for full_repo in "${!tags_by_repo[@]}"; do
     resolved_tag="$requested_tag"
     [[ "$requested_tag" == latest ]] && resolved_tag="$latest_tag"
     found=false
-    if [[ -n "$resolved_tag" ]] && gh release view "$resolved_tag" -R "$full_repo" --json tagName --jq .tagName >/dev/null 2>&1; then
+    # The trusted platform verifier has already staged this exact unpublished candidate on PATH.
+    if [[ "$full_repo" == lmctl-ai/lmpdf && -n "${LMPDF_QUALIFY_TAG:-}" && "$requested_tag" == "$LMPDF_QUALIFY_TAG" ]]; then
+      found=true
+    elif [[ -n "$resolved_tag" ]] && gh release view "$resolved_tag" -R "$full_repo" --json tagName --jq .tagName >/dev/null 2>&1; then
       found=true
     fi
     if [[ "$found" != true ]]; then
@@ -102,6 +105,10 @@ for full_repo in "${!tags_by_repo[@]}"; do
   done
   if [[ -z "$tag" ]]; then
     echo "install-hosts: no released binary is available for $full_repo"
+    continue
+  fi
+  if [[ "$full_repo" == lmctl-ai/lmpdf && -n "${LMPDF_QUALIFY_TAG:-}" && "$tag" == "$LMPDF_QUALIFY_TAG" ]]; then
+    echo "install-hosts: using the verified candidate already staged on PATH: $full_repo@$tag"
     continue
   fi
 
@@ -130,7 +137,7 @@ for full_repo in "${!tags_by_repo[@]}"; do
   read -r -a cli_words <<< "$cli_full"
   probe=("$host_bin/$repo")
   if [[ ${#cli_words[@]} -gt 1 ]]; then probe+=("${cli_words[@]:1}"); fi
-  if ! "${probe[@]}" --lmcode-schema --json >/dev/null 2>&1; then
+  if ! env -u GH_TOKEN -u GITHUB_TOKEN "${probe[@]}" --lmcode-schema --json >/dev/null 2>&1; then
     reason="$full_repo@$tag does not expose current --lmcode-schema --json; examples wait for host adoption"
     echo "install-hosts: SKIP $full_repo@$tag: $reason"
     for requested_tag in ${tags_by_repo[$full_repo]}; do
