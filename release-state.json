@@ -35,6 +35,18 @@
         "seal_sha256": "9689d4e8a51d805fed7f448ffa81bf0b6c117c813f69c16e751d58ed37a2c3ad",
         "tag": "v0.2.18"
       }
+    },
+    "v0.2.19": {
+      "outcome": "published",
+      "private_run": "https://github.com/lmctlhq/lmpdf/actions/runs/42181002138",
+      "public_run": "https://github.com/lmctl-ai/lmpdf/actions/runs/42182908771",
+      "qualification_run": "https://github.com/lmctl-ai/lmpdf/actions/runs/42183010136",
+      "request": {
+        "bundle_asset_id": 716345491,
+        "seal_asset_id": 716345308,
+        "seal_sha256": "b5afa51f8a64e4cbcbb414fa2968e7d64a90f226ad86a7e38be6bdc58c5547e6",
+        "tag": "v0.2.19"
+      }
     }
   },
   "format": "native-release-state/2"
