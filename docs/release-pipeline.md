@@ -60,10 +60,10 @@ git add REVOKED && git commit -m "Revoke v0.2.<BAD>" && git push origin main
 gh release edit v0.2.<GOOD> -R lmctl-ai/lmpdf --latest
 ```
 
-The current qualified public pin is `github:lmctl-ai/lmpdf@v0.2.17`. It came
-from private run `42141165327` (run 17); public broker `42143199627` and
-read-only worker `42143295009` succeeded before CI published immutable release
-435963136 as Latest. All 16 release asset IDs, sizes and SHA-256 digests matched
+The current qualified public pin is `github:lmctl-ai/lmpdf@v0.2.19`. It came
+from private run `42181002138` (run 19); public broker `42182908771` and
+read-only worker `42183010136` succeeded before CI published immutable release
+436226856 as Latest. All 16 release asset IDs, sizes and SHA-256 digests matched
 the GitHub API, and `SHA256SUMS` passed independently. A fresh isolated LMScript
 install resolved this exact pin. Future versions continue to use the existing
 0.2.x floor plus the private workflow run number; skipped/throwaway run numbers

@@ -1,6 +1,6 @@
 # A landscape certificate: large centred type, a recipient line, two signature blocks.
 output = ARGV.len() > 0 ? ARGV[0] : "certificate.pdf";
-p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.17";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.19";
 let d = docx.create(${output});
 d.title("Certificate of completion").author("Northstar Academy").font("Georgia").font_size(14.0).orientation("landscape").margins(72.0,90.0,72.0,90.0);
 d.paragraph("NORTHSTAR ACADEMY").align("center").size(14.0).color("#185A80").bold(true).spacing(24.0,18.0,1.0);

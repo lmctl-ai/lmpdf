@@ -1,6 +1,6 @@
 # A letter on a letterhead (running header) with numbered footnotes at the page bottom and a link.
 output = ARGV.len() > 0 ? ARGV[0] : "letterhead-footnotes.pdf";
-p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.17";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.19";
 let d = docx.create(${output});
 d.title("Data retention update").author("Harborline Devices").font("Calibri").font_size(11.0);
 d.header("HARBORLINE DEVICES · 88 Meridian Avenue · Bellwether, OR 97005 · harborline.example");

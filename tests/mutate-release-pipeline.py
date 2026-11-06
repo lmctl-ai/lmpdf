@@ -26,7 +26,7 @@ mutations=[
  ('revoked-pre-wp313','REVOKED','v0.2.13 pre-wp313 throwaway qualification failure',''),
  ('runbook-rollback','docs/release-pipeline.md','gh release edit v0.2.<GOOD> -R lmctl-ai/lmpdf --latest',''),
  ('readme-runbook-link','README.md','docs/release-pipeline.md',''),
- ('public-ci-stale-pin','.github/workflows/public-ci.yml','install="github:lmctl-ai/lmpdf@v0.2.17"','install="github:lmctl-ai/lmpdf@v0.2.2"'),
+ ('public-ci-stale-pin','.github/workflows/public-ci.yml','install="github:lmctl-ai/lmpdf@v0.2.19"','install="github:lmctl-ai/lmpdf@v0.2.2"'),
 ]
 with tempfile.TemporaryDirectory(prefix='release-mutations-') as temporary:
  root=Path(temporary)

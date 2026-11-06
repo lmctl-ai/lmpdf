@@ -11,13 +11,13 @@ verification. Interactive forms, encryption and digital signing are outside v1.
 
 ## Host protocol release
 
-[Release v0.2.17](https://github.com/lmctl-ai/lmpdf/releases/tag/v0.2.17) is the
+[Release v0.2.19](https://github.com/lmctl-ai/lmpdf/releases/tag/v0.2.19) is the
 current qualified lmcode host. Its repository CI passed all five native
 platforms and replays, compatibility checks, the html-doc corpus, PDF/A-2b and
 PDF/UA-1 validation, and resource budgets before promotion. The release is
 immutable and Latest.
 The examples pin this exact public release:
-`install="github:lmctl-ai/lmpdf@v0.2.17"`. See the
+`install="github:lmctl-ai/lmpdf@v0.2.19"`. See the
 [protocol and release qualification](docs/host-protocol.md) and the
 [release qualification runbook](docs/release-pipeline.md).
 
@@ -30,7 +30,7 @@ pass. Pins move only when that automatic promotion publishes a release.
 ## Install
 
 LMScript resolves the platform release asset through
-`install="github:lmctl-ai/lmpdf@v0.2.17"`. Releases contain the five native
+`install="github:lmctl-ai/lmpdf@v0.2.19"`. Releases contain the five native
 hosts (`lmpdf-linux-x64`, `lmpdf-linux-arm64`, `lmpdf-macos-x64`,
 `lmpdf-macos-arm64`, `lmpdf-windows-x64.exe`), their five layout readers
 (`lmpdf-layout-linux-x64`, `lmpdf-layout-linux-arm64`,
@@ -52,7 +52,7 @@ chmod +x lmpdf-linux-x64
 
 ```text
 output = ARGV.len() > 0 ? ARGV[0] : "hello.pdf";
-p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.17";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.19";
 let doc = docx.create(${output});
 doc.heading("Hello PDF", 1);
 doc.paragraph("The same document calls can target lmoffice docx.");
