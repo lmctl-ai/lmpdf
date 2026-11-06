@@ -41,7 +41,14 @@ gh workflow run ci.yml -R lmctlhq/lmpdf --ref main -f deliberate_public_failure=
 
 Follow the private producer, public broker, and public worker runs with `gh run list/view`. Public drafts remain unpublished until all platform, replay, compatibility, conformance, and RSS checks pass. In the throwaway run, the named deliberate test fails only after those gates succeed; the broker records revocation and removes only that sealed draft. A native-test failure leaves the draft unpublished for diagnosis.
 
-After a real successful run, the public pin is `github:lmctl-ai/lmpdf@<derived-version>`. The derived version is the existing 0.2.x floor plus that private workflow run number; skipped/throwaway run numbers are not reused.
+The current qualified public pin is `github:lmctl-ai/lmpdf@v0.2.17`. It came
+from private run `42141165327` (run 17); public broker `42143199627` and
+read-only worker `42143295009` succeeded before CI published immutable release
+435963136 as Latest. All 16 release asset IDs, sizes and SHA-256 digests matched
+the GitHub API, and `SHA256SUMS` passed independently. A fresh isolated LMScript
+install resolved this exact pin. Future versions continue to use the existing
+0.2.x floor plus the private workflow run number; skipped/throwaway run numbers
+are not reused.
 
 ## Local offline release controls
 

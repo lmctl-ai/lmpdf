@@ -2,17 +2,14 @@
 
 ## Release status
 
-[v0.2.2](https://github.com/lmctl-ai/lmpdf/releases/tag/v0.2.2) is the qualified
-current-protocol release. Pin `install="github:lmctl-ai/lmpdf@v0.2.2"` in recipes.
-Source commit b141177e55b549eaf0d5a01b9ae04936c150c51b is private; installable
-assets and SHA256SUMS are published in this public repository. All five public
-binaries match the qualified native CI artifacts byte for byte. The binaries
-report version0.2.2; they do not expose a separate embedded VCS field, so source
-identity is verified through release provenance and matching CI artifact hashes.
-
-The earlier budget and publisher-authorization blockers were resolved by the
-operator-authorized Lead. The source repository's own CI completed publication;
-recipes require no credential or manual release operation. The historicalv0.1.62
+[v0.2.17](https://github.com/lmctl-ai/lmpdf/releases/tag/v0.2.17) is the current
+qualified lmcode host. Pin `install="github:lmctl-ai/lmpdf@v0.2.17"` in recipes.
+The private source commit is `859bcdd8a90fa665b8fb83804a2474b3ff1e9b11`; its
+own workflow built the five hosts and layout readers, then the public broker and
+read-only worker qualified those exact bytes on every supported platform. The
+release is immutable Latest, with `SHA256SUMS`, a sealed asset manifest and
+private build provenance. A fresh isolated LMScript install resolved the
+v0.2.17 binary and passed schema/signature discovery. The historical v0.1.62
 binary retains the retired protocol and is not suitable for these recipes.
 
 ## Execution and discovery
@@ -75,5 +72,5 @@ rechecks the sealed candidate before marking it Latest. Existing published
 releases are immutable; matching replays are idempotent and checksum conflicts
 are rejected. No tag, release, or promotion is performed manually.
 
-The last previously published release is `v0.2.2`; the exact new version and
-checksum evidence will be recorded here after end-to-end qualification.
+The latest qualified release is `v0.2.17`; the source, broker, worker and asset
+verification evidence is recorded in the WP312 completion report.

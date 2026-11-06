@@ -21,7 +21,7 @@ for (c in range(0, 10)) {
   }
   body = body + "| Indicator | Target | Measured |\n| :--- | ---: | ---: |\n" + sprintf("| Round-trip efficiency | 88 %% | %d %% |\n| Availability | 99.0 %% | 99.%d %% |\n\n", 86 + (c % 4), c);
 }
-p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.14";
+p = _lmcode_ cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.17";
 let d = docx.create(${output});
 d.font("Calibri").font_size(11.0);
 d.markdown(${body}).save();
