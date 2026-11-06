@@ -26,7 +26,7 @@ def jobs(api,run_id):
 def broker():
  api=API();root=Path('draft-assets');manifest,seal=validate_files(root)
  parent=positive(os.environ['GITHUB_RUN_ID']);attempt=positive(os.environ['GITHUB_RUN_ATTEMPT']);artifact=positive(os.environ['ARTIFACT_ID']);artifact_digest=os.environ['ARTIFACT_DIGEST'];tag=manifest['tag']
- title=f'Qualify artifact {parent}.{attempt} {tag}'
+ title=f'Qualify lmpdf artifact {parent}.{attempt} {tag}'
  api.request('dispatches',method='POST',data={'event_type':CONFIG['product']+'-qualify-frozen','client_payload':{'parent_run_id':parent,'parent_attempt':attempt,'artifact_id':artifact,'artifact_digest':artifact_digest,'tag':tag}})
  summary('Read-only public qualification requested for parent '+str(parent)+', artifact '+str(artifact)+'.')
  # Actions dispatch is asynchronous and returns no run id. This is queue-state
