@@ -1,1 +1,17 @@
-{"format":"native-release-state/2","candidates":{}}
+{
+  "candidates": {
+    "v0.2.15": {
+      "outcome": "revoked-throwaway",
+      "private_run": "https://github.com/lmctlhq/lmpdf/actions/runs/42131796542",
+      "public_run": "https://github.com/lmctl-ai/lmpdf/actions/runs/42134737989",
+      "qualification_run": "https://github.com/lmctl-ai/lmpdf/actions/runs/42134829910",
+      "request": {
+        "bundle_asset_id": 715266654,
+        "seal_asset_id": 715266396,
+        "seal_sha256": "b654cc8a7fff9160c393feecfa02a6cef15877de87ce4f09d5754631e7938a65",
+        "tag": "v0.2.15"
+      }
+    }
+  },
+  "format": "native-release-state/2"
+}
