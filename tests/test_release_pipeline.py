@@ -90,6 +90,15 @@ class SealedPolicy(unittest.TestCase):
   check=self.required('allow_promotion')
   with self.assertRaises(ValueError):check('v0.1.20','v0.1.58',[])
   with self.assertRaises(ValueError):check('v0.1.59','v0.1.58',['v0.1.59'])
+  revoked=[l.split()[0] for l in text('REVOKED').splitlines() if l.strip() and not l.startswith('#')]
+  state=json.loads(text('release-state.json'))
+  published=[k for k,v in state.get('candidates',{}).items() if v.get('outcome')=='published']
+  latest=max(published,key=self.required('version'))
+  self.assertIn('v0.2.15',revoked)
+  self.assertIn('v0.2.13',revoked)
+  with self.assertRaises(ValueError):check('v0.2.15',latest,revoked)
+  with self.assertRaises(ValueError):check('v0.2.13',latest,revoked)
+  with self.assertRaises(ValueError):check('v0.2.14',latest,revoked)
  def test_cleanup_requires_sealed_throwaway(self):
   check=self.required('allow_cleanup')
   with self.assertRaises(ValueError):check({'deliberate_failure':False})

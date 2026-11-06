@@ -86,6 +86,24 @@ class PublicPipeline(unittest.TestCase):
         self.assertIn("run-name: Qualify lmpdf artifact", workflow)
         self.assertIn("title=f'Qualify lmpdf artifact {parent}.{attempt} {tag}'", broker)
 
+    def test_runbook_readme_and_public_ci_pins(self):
+        doc = source("docs/release-pipeline.md")
+        self.assertIn("REVOKED", doc)
+        self.assertIn("gh release edit", doc)
+        self.assertIn("gh run rerun", doc)
+        self.assertIn("qualify-private-draft.yml -f tag=", doc)
+        readme = source("README.md")
+        self.assertIn("docs/release-pipeline.md", readme)
+        self.assertIn("lmpdf-layout-linux-x64", readme)
+        self.assertIn("FROZEN-CANDIDATE.json", readme)
+        self.assertIn("PROVENANCE.jsonl", readme)
+        pub_ci = source(".github/workflows/public-ci.yml")
+        self.assertNotIn("@v0.2.2", pub_ci)
+        for f in [".github/workflows/qualify-private-draft.yml", ".github/workflows/qualify-platforms.yml", ".github/workflows/public-ci.yml", ".github/actions/qualify-platform/action.yml"]:
+            for line in source(f).splitlines():
+                if line.strip().startswith("if:") and "always()" in line:
+                    self.assertIn("!cancelled()", line, (f, line))
+
 
 if __name__ == "__main__":
     unittest.main()

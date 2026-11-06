@@ -18,7 +18,8 @@ PDF/UA-1 validation, and resource budgets before promotion. The release is
 immutable and Latest.
 The examples pin this exact public release:
 `install="github:lmctl-ai/lmpdf@v0.2.17"`. See the
-[protocol and release qualification](docs/host-protocol.md).
+[protocol and release qualification](docs/host-protocol.md) and the
+[release qualification runbook](docs/release-pipeline.md).
 
 New releases are initiated by a manual dispatch in the private source repository.
 That workflow seals the native candidates as a public draft; this public
@@ -29,9 +30,14 @@ pass. Pins move only when that automatic promotion publishes a release.
 ## Install
 
 LMScript resolves the platform release asset through
-`install="github:lmctl-ai/lmpdf@v0.2.17"`. Releases contain
-`lmpdf-linux-x64`, `lmpdf-linux-arm64`, `lmpdf-macos-x64`,
-`lmpdf-macos-arm64`, `lmpdf-windows-x64.exe`, and `SHA256SUMS`.
+`install="github:lmctl-ai/lmpdf@v0.2.17"`. Releases contain the five native
+hosts (`lmpdf-linux-x64`, `lmpdf-linux-arm64`, `lmpdf-macos-x64`,
+`lmpdf-macos-arm64`, `lmpdf-windows-x64.exe`), their five layout readers
+(`lmpdf-layout-linux-x64`, `lmpdf-layout-linux-arm64`,
+`lmpdf-layout-macos-x64`, `lmpdf-layout-macos-arm64`,
+`lmpdf-layout-windows-x64.exe`), `LICENSE`, `THIRD_PARTY_NOTICES.md`,
+`RELEASE-MANIFEST.json`, `SHA256SUMS`, `FROZEN-CANDIDATE.json`, and
+`PROVENANCE.jsonl`.
 
 For a direct Linux x64 download:
 

@@ -77,7 +77,7 @@ jobs:
         run: |
           python3 tests/install-hosts.test.py
           test ! -s "$LMCTL_UNAVAILABLE_EXAMPLES_FILE"
-          lmscript -e 's = load_schema(cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.2");'
+          lmscript -e 's = load_schema(cli="lmpdf docx" install="github:lmctl-ai/lmpdf@v0.2.17");'
 
       - name: Check every public example with lmscript
         shell: bash

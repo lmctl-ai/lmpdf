@@ -23,6 +23,10 @@ mutations=[
  ('artifact-layout','.github/actions/qualify-platform/action.yml','merge-multiple: true','merge-multiple: false'),
  ('action-pin','.github/workflows/qualify-private-draft.yml','actions/checkout@11d5960a326750d5838078e36cf38b85af677262','actions/checkout@v4'),
  ('doc-permissions','docs/release-pipeline.md','| promote | `contents:write; actions:read` |','| promote | `contents:read; actions:read` |'),
+ ('revoked-pre-wp313','REVOKED','v0.2.13 pre-wp313 throwaway qualification failure',''),
+ ('runbook-rollback','docs/release-pipeline.md','gh release edit v0.2.<GOOD> -R lmctl-ai/lmpdf --latest',''),
+ ('readme-runbook-link','README.md','docs/release-pipeline.md',''),
+ ('public-ci-stale-pin','.github/workflows/public-ci.yml','install="github:lmctl-ai/lmpdf@v0.2.17"','install="github:lmctl-ai/lmpdf@v0.2.2"'),
 ]
 with tempfile.TemporaryDirectory(prefix='release-mutations-') as temporary:
  root=Path(temporary)
@@ -31,6 +35,7 @@ with tempfile.TemporaryDirectory(prefix='release-mutations-') as temporary:
  shutil.copy2(ROOT/'release-policy.json',root/'release-policy.json')
  shutil.copy2(ROOT/'REVOKED',root/'REVOKED')
  shutil.copy2(ROOT/'release-state.json',root/'release-state.json')
+ shutil.copy2(ROOT/'README.md',root/'README.md')
  command=[sys.executable,'-B','-m','unittest','discover','-s','tests','-p','test_release*.py']
  baseline=subprocess.run(command,cwd=root,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
  if baseline.returncode:sys.stdout.buffer.write(baseline.stdout);raise SystemExit('mutation baseline is not green')

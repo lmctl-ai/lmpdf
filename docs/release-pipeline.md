@@ -41,6 +41,25 @@ gh workflow run ci.yml -R lmctlhq/lmpdf --ref main -f deliberate_public_failure=
 
 Follow the private producer, public broker, and public worker runs with `gh run list/view`. Public drafts remain unpublished until all platform, replay, compatibility, conformance, and RSS checks pass. In the throwaway run, the named deliberate test fails only after those gates succeed; the broker records revocation and removes only that sealed draft. A native-test failure leaves the draft unpublished for diagnosis.
 
+If the private build succeeded and only the public handoff or runner queue failed transiently, redrive the original private `publish-draft` job so it reuses the original build attempt and frozen asset IDs, or replay a recorded tag in the public broker:
+
+```sh
+gh run rerun <PRIVATE_RUN_ID> -R lmctlhq/lmpdf --failed
+gh workflow run qualify-private-draft.yml -f tag=v0.2.<N> -R lmctl-ai/lmpdf --ref main
+```
+
+A source or build change requires a new private manual run and a new derived version (`0.2.<run_number>`).
+
+### Operator rollback
+
+If a published release must be rolled back, append the tag and reason to `REVOKED` and push to `lmctl-ai/lmpdf` `main` **first** so any concurrent or subsequent replay of that tag is refused immediately, then move `Latest` back to the last known-good release:
+
+```sh
+printf 'v0.2.<BAD> operator rollback: <reason>\n' >> REVOKED
+git add REVOKED && git commit -m "Revoke v0.2.<BAD>" && git push origin main
+gh release edit v0.2.<GOOD> -R lmctl-ai/lmpdf --latest
+```
+
 The current qualified public pin is `github:lmctl-ai/lmpdf@v0.2.17`. It came
 from private run `42141165327` (run 17); public broker `42143199627` and
 read-only worker `42143295009` succeeded before CI published immutable release
