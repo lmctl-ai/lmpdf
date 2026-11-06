@@ -80,6 +80,12 @@ class PublicPipeline(unittest.TestCase):
                 pin = line.split("uses:", 1)[1].split("#", 1)[0].strip().rsplit("@", 1)[-1]
                 self.assertEqual(len(pin), 40, (file, line))
 
+    def test_broker_correlation_title_matches_worker_run_name(self):
+        workflow = source(".github/workflows/qualify-platforms.yml")
+        broker = source("scripts/qualification_broker.py")
+        self.assertIn("run-name: Qualify lmpdf artifact", workflow)
+        self.assertIn("title=f'Qualify lmpdf artifact {parent}.{attempt} {tag}'", broker)
+
 
 if __name__ == "__main__":
     unittest.main()
